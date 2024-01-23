@@ -2,7 +2,7 @@
 Meta-package for build the Xbot2 framework on conda
 
 # How to
-```
+```bash
 # initialize forest
 mkdir forest_ws && cd forest_ws
 forest init
