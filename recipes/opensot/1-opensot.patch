@@ -116,26 +116,7 @@ index 784aeae0..b630e170 100644
  #include <XBotInterface/ModelInterface.h>
  
  class convex_hull
-diff --git a/src/solvers/BackEndFactory.cpp b/src/solvers/BackEndFactory.cpp
-index 10ec176d..147ee148 100644
---- a/src/solvers/BackEndFactory.cpp
-+++ b/src/solvers/BackEndFactory.cpp
-@@ -1,5 +1,15 @@
- #include <OpenSoT/solvers/BackEndFactory.h>
- #include <XBotInterface/SoLib.h>
-+#include <XBotInterface/Utils.h>
-+
-+namespace XBot { namespace Utils { 
-+
-+std::string FindLib(std::string libname, std::string)
-+{
-+    return libname;
-+}
-+
-+}}
- 
- OpenSoT::solvers::BackEnd::Ptr OpenSoT::solvers::BackEndFactory(const solver_back_ends be_solver, const int number_of_variables,
-                        const int number_of_constraints,
+
 diff --git a/src/utils/convex_hull_utils.cpp b/src/utils/convex_hull_utils.cpp
 index 3582788f..ab84d644 100644
 --- a/src/utils/convex_hull_utils.cpp

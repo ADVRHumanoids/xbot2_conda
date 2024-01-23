@@ -12,6 +12,8 @@ package:
 # location to get the source from
 source: 
   path: ../../../cartesian_interface
+  patches:
+    - 1-cartesian-interface.patch
 
 # build number (should be incremented if a new build is made, but version is not incrementing)
 build:

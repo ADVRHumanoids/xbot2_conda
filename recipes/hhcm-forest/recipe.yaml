@@ -1,0 +1,50 @@
+context: 
+  name: hhcm-forest
+  version: 1.1.14
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/hhcm_forest-{{ version }}.tar.gz
+
+build:
+  entry_points:
+    - forest = forest.main:main
+  noarch: python
+  script: python3 -m pip install . -vv --no-deps --no-build-isolation
+  number: "{{ environ.get('CONDA_BUILD_NUMBER', 1) }}"
+
+requirements:
+  host:
+    - python >=3.6
+    - setuptools >=59,<61.0
+    - wheel
+    - pip
+  run:
+    - python >=3.6
+    - argcomplete
+    - parse
+    - pyyaml
+    - psutil
+    - progressbar
+
+test:
+  imports:
+    - forest
+  commands:
+    - pip check
+    - forest --help
+  requires:
+    - pip
+
+about:
+  home: https://none
+  summary: A minimalistic tool to automate source code cloning and building
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - alaurenzi

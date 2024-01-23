@@ -13,7 +13,7 @@ package:
 source: 
   path: ../../../OpenSoT
   patches:
-    - opensot.patch
+    - 1-opensot.patch
 
 # build number (should be incremented if a new build is made, but version is not incrementing)
 build:

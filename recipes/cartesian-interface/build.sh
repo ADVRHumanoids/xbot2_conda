@@ -10,7 +10,6 @@ cd ..
 mkdir build && cd build
 
 export CMAKE_PREFIX_PATH=$PWD/../install:$CMAKE_PREFIX_PATH
-echo "DDDDDD $CMAKE_PREFIX_PATH"
 cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_BUILD_TYPE=Release ..
 
 make install -j $(nproc)

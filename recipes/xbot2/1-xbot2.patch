@@ -1,0 +1,30 @@
+diff --git a/gazebo/CMakeLists.txt b/gazebo/CMakeLists.txt
+index e56ec65..4b339e3 100644
+--- a/gazebo/CMakeLists.txt
++++ b/gazebo/CMakeLists.txt
+@@ -6,6 +6,12 @@ find_package(gazebo REQUIRED)
+ find_package(urdf REQUIRED)
+ find_package(srdfdom REQUIRED)
+ 
++
++link_directories(
++    ${GAZEBO_LIBRARY_DIRS}
++)
++
++
+ include_directories(
+     ${GAZEBO_INCLUDE_DIRS}
+     ../src
+diff --git a/src/executor/config_parser.h b/src/executor/config_parser.h
+index 14aacb0..7ab3236 100644
+--- a/src/executor/config_parser.h
++++ b/src/executor/config_parser.h
+@@ -7,6 +7,8 @@
+ #include <XBotInterface/XBotInterface.h>
+ #pragma GCC diagnostic pop
+ 
++#include <optional>
++
+ #include "xbotcore_thread.h"
+ 
+ namespace YAML

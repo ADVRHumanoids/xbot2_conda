@@ -12,6 +12,8 @@ package:
 # location to get the source from
 source: 
   path: ../../../xbot2
+  patches:
+    - 1-xbot2.patch
 
 # build number (should be incremented if a new build is made, but version is not incrementing)
 build:
@@ -21,7 +23,7 @@ build:
 requirements:
   host:
     - cmake
-    - conda-build   
+    - compilers
     - python
     - eigen
     - xbotinterface
