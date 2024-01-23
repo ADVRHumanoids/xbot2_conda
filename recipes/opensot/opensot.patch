@@ -1,0 +1,167 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9a62c185..a89a0d77 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -2,7 +2,7 @@
+ # Authors: Enrico Mingo Hoffman, Alessio Rocchi
+ # CopyPolicy: Released under the terms of the GNU GPL v2.0.
+ 
+-cmake_minimum_required(VERSION 3.0)
++cmake_minimum_required(VERSION 3.15)
+ include(ExternalProject)
+ project(open_sot VERSION 3.3.0)
+ 
+@@ -44,6 +44,7 @@ find_package(orocos_kdl REQUIRED)
+ find_package(urdf REQUIRED)
+ find_package(kdl_parser REQUIRED)
+ find_package(moveit_core QUIET)
++
+ find_package(Qhull REQUIRED)
+ find_package(PCL 1.7 QUIET COMPONENTS   common
+                                         filters
+diff --git a/cmake/Modules/FindQhull.cmake b/cmake/Modules/FindQhull.cmake
+deleted file mode 100644
+index 3ddfb6c7..00000000
+--- a/cmake/Modules/FindQhull.cmake
++++ /dev/null
+@@ -1,79 +0,0 @@
+-##############################################################################
+-# Find QHULL
+-#
+-# This sets the following variables:
+-# QHULL_FOUND - True if QHULL was found.
+-# QHULL_INCLUDE_DIRS - Directories containing the QHULL include files.
+-# QHULL_LIBRARIES - Libraries needed to use QHULL.
+-# QHULL_DEFINITIONS - Compiler flags for QHULL.
+-# If QHULL_USE_STATIC is specified then look for static libraries ONLY else 
+-# look for shared ones
+-
+-set(QHULL_MAJOR_VERSION 6)
+-
+-if(QHULL_USE_STATIC)
+-  set(QHULL_RELEASE_NAME qhullstatic)
+-  set(QHULL_DEBUG_NAME qhullstatic_d)
+-else(QHULL_USE_STATIC)
+-  set(QHULL_RELEASE_NAME qhull qhull${QHULL_MAJOR_VERSION})
+-  set(QHULL_DEBUG_NAME qhull_d qhull${QHULL_MAJOR_VERSION}_d qhull_d${QHULL_MAJOR_VERSION})
+-endif(QHULL_USE_STATIC)
+-
+-find_file(QHULL_HEADER
+-          NAMES libqhull/libqhull.h qhull.h
+-          HINTS "${QHULL_ROOT}" "$ENV{QHULL_ROOT}" "${QHULL_INCLUDE_DIR}"
+-          PATHS "$ENV{PROGRAMFILES}/QHull" "$ENV{PROGRAMW6432}/QHull" 
+-          PATH_SUFFIXES qhull src/libqhull libqhull include)
+-
+-set(QHULL_HEADER "${QHULL_HEADER}" CACHE INTERNAL "QHull header" FORCE )
+-
+-if(QHULL_HEADER)
+-  get_filename_component(qhull_header ${QHULL_HEADER} NAME_WE)
+-  if("${qhull_header}" STREQUAL "qhull")
+-    set(HAVE_QHULL_2011 OFF)
+-    get_filename_component(QHULL_INCLUDE_DIR ${QHULL_HEADER} PATH)
+-  elseif("${qhull_header}" STREQUAL "libqhull")
+-    set(HAVE_QHULL_2011 ON)
+-    get_filename_component(QHULL_INCLUDE_DIR ${QHULL_HEADER} PATH)
+-    get_filename_component(QHULL_INCLUDE_DIR ${QHULL_INCLUDE_DIR} PATH)
+-  endif()
+-else(QHULL_HEADER)
+-  set(QHULL_INCLUDE_DIR "QHULL_INCLUDE_DIR-NOTFOUND")
+-endif(QHULL_HEADER)
+-
+-set(QHULL_INCLUDE_DIR "${QHULL_INCLUDE_DIR}" CACHE PATH "QHull include dir." FORCE)
+-
+-find_library(QHULL_LIBRARY 
+-             NAMES ${QHULL_RELEASE_NAME}
+-             HINTS "${QHULL_ROOT}" "$ENV{QHULL_ROOT}"
+-             PATHS "$ENV{PROGRAMFILES}/QHull" "$ENV{PROGRAMW6432}/QHull" 
+-             PATH_SUFFIXES project build bin lib)
+-
+-find_library(QHULL_LIBRARY_DEBUG 
+-             NAMES ${QHULL_DEBUG_NAME} ${QHULL_RELEASE_NAME}
+-             HINTS "${QHULL_ROOT}" "$ENV{QHULL_ROOT}"
+-             PATHS "$ENV{PROGRAMFILES}/QHull" "$ENV{PROGRAMW6432}/QHull" 
+-             PATH_SUFFIXES project build bin lib)
+-
+-if(NOT QHULL_LIBRARY_DEBUG)
+-  set(QHULL_LIBRARY_DEBUG ${QHULL_LIBRARY})
+-endif(NOT QHULL_LIBRARY_DEBUG)
+-
+-set(QHULL_INCLUDE_DIRS ${QHULL_INCLUDE_DIR})
+-set(QHULL_LIBRARIES optimized ${QHULL_LIBRARY} debug ${QHULL_LIBRARY_DEBUG})
+-
+-include(FindPackageHandleStandardArgs)
+-find_package_handle_standard_args(Qhull DEFAULT_MSG QHULL_LIBRARY QHULL_INCLUDE_DIR)
+-
+-mark_as_advanced(QHULL_LIBRARY QHULL_LIBRARY_DEBUG QHULL_INCLUDE_DIR)
+-
+-if(QHULL_FOUND)
+-  set(HAVE_QHULL ON)
+-  if(NOT QHULL_USE_STATIC)
+-    add_definitions("-Dqh_QHpointer")
+-    if(MSVC)
+-      add_definitions("-Dqh_QHpointer_dllimport")
+-    endif(MSVC)
+-  endif(NOT QHULL_USE_STATIC)
+-  message(STATUS "QHULL found (include: ${QHULL_INCLUDE_DIRS}, lib: ${QHULL_LIBRARIES})")
+-endif(QHULL_FOUND)
+diff --git a/include/OpenSoT/utils/convex_hull_utils.h b/include/OpenSoT/utils/convex_hull_utils.h
+index 784aeae0..b630e170 100644
+--- a/include/OpenSoT/utils/convex_hull_utils.h
++++ b/include/OpenSoT/utils/convex_hull_utils.h
+@@ -29,6 +29,7 @@
+ #include <pcl/filters/passthrough.h>
+ #include <pcl/filters/project_inliers.h>
+ #include <pcl/surface/concave_hull.h>
++#include <pcl/surface/convex_hull.h>
+ #include <XBotInterface/ModelInterface.h>
+ 
+ class convex_hull
+diff --git a/src/solvers/BackEndFactory.cpp b/src/solvers/BackEndFactory.cpp
+index 10ec176d..147ee148 100644
+--- a/src/solvers/BackEndFactory.cpp
++++ b/src/solvers/BackEndFactory.cpp
+@@ -1,5 +1,15 @@
+ #include <OpenSoT/solvers/BackEndFactory.h>
+ #include <XBotInterface/SoLib.h>
++#include <XBotInterface/Utils.h>
++
++namespace XBot { namespace Utils { 
++
++std::string FindLib(std::string libname, std::string)
++{
++    return libname;
++}
++
++}}
+ 
+ OpenSoT::solvers::BackEnd::Ptr OpenSoT::solvers::BackEndFactory(const solver_back_ends be_solver, const int number_of_variables,
+                        const int number_of_constraints,
+diff --git a/src/utils/convex_hull_utils.cpp b/src/utils/convex_hull_utils.cpp
+index 3582788f..ab84d644 100644
+--- a/src/utils/convex_hull_utils.cpp
++++ b/src/utils/convex_hull_utils.cpp
+@@ -19,12 +19,13 @@
+ 
+ #include <OpenSoT/utils/convex_hull_utils.h>
+ #include <pcl/surface/convex_hull.h>
++#include <boost/make_shared.hpp>
+ 
+ convex_hull::convex_hull():
+     _ransac_distance_thr(0.001)
+ {
+-	_pointCloud = boost::make_shared< pcl::PointCloud<pcl::PointXYZ> >();
+-	_projectedPointCloud = boost::make_shared< pcl::PointCloud<pcl::PointXYZ> >();
++	_pointCloud = pcl::make_shared< pcl::PointCloud<pcl::PointXYZ> >();
++	_projectedPointCloud = pcl::make_shared< pcl::PointCloud<pcl::PointXYZ> >();
+ }
+ 
+ convex_hull::~convex_hull()
+@@ -83,7 +84,7 @@ bool convex_hull::getConvexHull(const std::list<KDL::Vector>& points,
+ void convex_hull::projectPCL2Plane(const pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud, const double ransac_distance_thr,
+                                    pcl::PointCloud<pcl::PointXYZ>::Ptr projected_point_cloud)
+ {
+-    pcl::ModelCoefficients::Ptr coefficients = boost::make_shared<pcl::ModelCoefficients>();
++    pcl::ModelCoefficients::Ptr coefficients = pcl::make_shared<pcl::ModelCoefficients>();
+ 
+     //We projects ALL the points in the plane (0 0 1)
+     coefficients->values.clear();

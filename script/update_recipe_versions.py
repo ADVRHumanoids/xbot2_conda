@@ -30,13 +30,13 @@ else:
 for file in found_files:
     print(f'processing {file}..')
     recipe = yaml.safe_load(open(file, 'r'))
-    cmakelists = os.path.join(recipe['source']['path'], 'CMakeLists.txt')
+    cmakelists = os.path.join(os.path.dirname(file), recipe['source']['path'], 'CMakeLists.txt')
     print(f'  path to cmakelists:  {cmakelists}')
     try:
         ver = parse_cmake_version.parse_cmake_version(cmakelists)
         print(f"    detected version {ver}")
-        recipe['package']['version'] = str(ver)
-        yaml.safe_dump(recipe, open(file, 'w'))
+        # recipe['package']['version'] = str(ver)
+        # yaml.safe_dump(recipe, open(file, 'w'))
     except FileNotFoundError:
         print(f"    not found")
     

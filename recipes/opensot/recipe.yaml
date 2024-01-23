@@ -11,7 +11,9 @@ package:
 
 # location to get the source from
 source: 
-  path: ../../../src/OpenSoT
+  path: ../../../OpenSoT
+  patches:
+    - opensot.patch
 
 # build number (should be incremented if a new build is made, but version is not incrementing)
 build:

@@ -1,9 +1,16 @@
-git clone git@github.com:oxfordcontrol/osqp.git --branch v0.6.3
+git clone git@github.com:advrhumanoids/rbdl.git --branch devel
 
 mkdir install
 
-mkdir osqp_build && cd osqp_build
-cmake -DCMAKE_INSTALL_PREFIX=$PWD/../install -DCMAKE_BUILD_TYPE=Release ../osqp
+mkdir rbdl_build && cd rbdl_build
+
+cmake -DCMAKE_INSTALL_PREFIX=$PWD/../install\
+ -DCMAKE_BUILD_TYPE=Release \
+  -DRBDL_BUILD_STATIC=TRUE \
+  -DRBDL_BUILD_ADDON_URDFREADER=TRUE \
+  -DRBDL_USE_ROS_URDF_LIBRARY=TRUE \
+  ../rbdl
+
 make install -j $(nproc)
 cd ..
 
