@@ -1,0 +1,71 @@
+# this sets up "context variables" (in this case name and version) that
+# can later be used in Jinja expressions
+context:
+  version: 2.3.0
+  name: xbotinterface
+
+# top level package information (name and version)
+package:
+  name: "{{ name }}"
+  version: "{{ version }}"
+
+# location to get the source from
+source: 
+  path: ../../../src/xbotinterface
+
+# build number (should be incremented if a new build is made, but version is not incrementing)
+build:
+  number: 1
+
+# the requirements at build and runtime
+requirements:
+  host:
+    - cmake
+    - compilers
+    - python
+    - eigen
+    - pybind11  
+    - matlogger2 
+    - ros-noetic-urdf
+    - ros-noetic-kdl-parser
+    - ros-noetic-eigen-conversions
+    - ros-noetic-cmake-modules
+    - ros-noetic-rosconsole-bridge
+    - orocos-kdl
+    - tinyxml
+    - yaml-cpp 0.7
+
+  run:
+    - python
+    - eigen 
+    - matlogger2 
+    - ros-noetic-urdf
+    - ros-noetic-kdl-parser
+    - ros-noetic-eigen-conversions
+    - ros-noetic-cmake-modules
+    - ros-noetic-rosconsole-bridge
+    - orocos-kdl
+    - tinyxml
+    - yaml-cpp
+
+# tests to validate that the package works as expected
+# test:
+#   imports:
+#     - imagesize
+
+# information about the package
+# about:
+#   home: https://github.com/shibukawa/imagesize_py
+#   license: MIT
+#   summary: 'Getting image size from png/jpeg/jpeg2000/gif file'
+#   description: |
+#     This module analyzes jpeg/jpeg2000/png/gif image header and
+#     return image size.
+#   dev_url: https://github.com/shibukawa/imagesize_py
+#   doc_url: https://pypi.python.org/pypi/imagesize
+#   doc_source_url: https://github.com/shibukawa/imagesize_py/blob/master/README.rst
+
+# # the below is conda-forge specific!
+# extra:
+#   recipe-maintainers:
+#     - somemaintainer

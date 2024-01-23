@@ -1,0 +1,4 @@
+channels:
+  - conda-forge
+  - robostack-staging
+auto_activate_base: false
