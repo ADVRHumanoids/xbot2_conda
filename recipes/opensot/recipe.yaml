@@ -1,7 +1,7 @@
 # this sets up "context variables" (in this case name and version) that
 # can later be used in Jinja expressions
 context:
-  version: 3.3.0
+  version: 3.4.0
   name: opensot
 
 # top level package information (name and version)
@@ -27,6 +27,7 @@ requirements:
     - boost
     - orocos-kdl
     - urdfdom
+    - ros-noetic-geometric-shapes ==0.7.3
     - ros-noetic-kdl-parser
     - ros-noetic-moveit-core 
     - qhull
@@ -40,6 +41,7 @@ requirements:
     - boost
     - orocos-kdl
     - urdfdom
+    - ros-noetic-geometric-shapes ==0.7.3
     - ros-noetic-kdl-parser
     - ros-noetic-moveit-core 
     - qhull

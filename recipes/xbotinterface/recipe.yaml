@@ -1,7 +1,7 @@
 # this sets up "context variables" (in this case name and version) that
 # can later be used in Jinja expressions
 context:
-  version: 2.3.0
+  version: 2.4.0
   name: xbotinterface
 
 # top level package information (name and version)
