@@ -10,7 +10,7 @@ mamba activate $ENV_NAME
 
 cd $DIR/../recipes
 
-# boa build . --skip-existing -m conda_build_config.yaml
-boa build . -m conda_build_config.yaml
+boa build . --skip-existing -m conda_build_config.yaml || exit 1
+# boa build . -m conda_build_config.yaml || exit 1
 
 bash $DIR/deploy.bash

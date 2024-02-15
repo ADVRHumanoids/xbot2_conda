@@ -1,23 +1,29 @@
 hdf5:
-  - 1.12.2
+  - 1.14.3
 
 gazebo:
-  - 11.12.0 h327f067_9
+  - 11
 
 yaml-cpp:
   - 0.7
+
+pcl:
+  - 1.13
   
 numpy:
-  - 1.26
+  - 1.23
+
+ogre:
+  - 1.10.12
 
 python:
-  - 3.9.* *_cpython
+  - 3.11.* *_cpython
 
 python_impl:
   - cpython
 
 graphviz:
-  - 6
+  - 9
 
 pin_run_as_build:
   graphviz:

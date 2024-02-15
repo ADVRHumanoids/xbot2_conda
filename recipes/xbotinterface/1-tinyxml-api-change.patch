@@ -1,0 +1,24 @@
+diff --git a/src/ConfigOptions.cpp b/src/ConfigOptions.cpp
+index 04faad3778..677a074447 100644
+--- a/src/ConfigOptions.cpp
++++ b/src/ConfigOptions.cpp
+@@ -1,6 +1,7 @@
+ #include <XBotInterface/ConfigOptions.h>
+ #include <urdf_parser/urdf_parser.h>
+ #include <srdfdom_advr/model.h>
++#include <tinyxml2.h>
+ 
+ #include <libgen.h>
+ 
+@@ -340,9 +341,9 @@ void XBot::ConfigOptions::make_floating_base(bool fb)
+ 
+     // finally, re-generate urdf
+     auto tiXmlDoc(urdf::exportURDF(urdfdom));
+-    TiXmlPrinter printer;
++    tinyxml2::XMLPrinter printer;
+     tiXmlDoc->Accept(&printer);
+-    _urdf = printer.Str();
++    _urdf = printer.CStr();
+ 
+     // set flag
+     set_parameter<bool>("is_model_floating_base", fb);

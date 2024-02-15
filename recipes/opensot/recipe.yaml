@@ -17,7 +17,7 @@ source:
 
 # build number (should be incremented if a new build is made, but version is not incrementing)
 build:
-  number: 1
+  number: 2
 
 # the requirements at build and runtime
 requirements:
@@ -27,7 +27,7 @@ requirements:
     - boost
     - orocos-kdl
     - urdfdom
-    - ros-noetic-geometric-shapes ==0.7.3
+    - ros-noetic-geometric-shapes
     - ros-noetic-kdl-parser
     - ros-noetic-moveit-core 
     - qhull
@@ -41,7 +41,7 @@ requirements:
     - boost
     - orocos-kdl
     - urdfdom
-    - ros-noetic-geometric-shapes ==0.7.3
+    - ros-noetic-geometric-shapes
     - ros-noetic-kdl-parser
     - ros-noetic-moveit-core 
     - qhull

@@ -15,7 +15,7 @@ source:
 
 # build number (should be incremented if a new build is made, but version is not incrementing)
 build:
-  number: 1
+  number: 2
 
 # the requirements at build and runtime
 requirements:
@@ -25,11 +25,11 @@ requirements:
     - python
     - eigen
     - pybind11  
-    - hdf5 ==1.12.2
+    - hdf5
     - boost
   run:
     - python
-    - hdf5 ==1.12.2
+    - hdf5
     - eigen
     - boost
     - libstdcxx-ng

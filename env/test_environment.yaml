@@ -6,12 +6,12 @@ channels:
 - iit_hhcm
 
 dependencies:
+- python=3.11
 - ros-noetic-desktop-full
-- ros-noetic-rosmon
+# - ros-noetic-rosmon
 - cartesian-interface
 - xbot2
 - modelinterfacerbdl
 - xbot2-gui
 - iit-centauro-ros-pkg
-- ros-noetic-geometric-shapes==0.7.3
-- ros-noetic-gazebo-ros==2.9.2=py39h67aadc1_15
+- protobuf=4.24.4

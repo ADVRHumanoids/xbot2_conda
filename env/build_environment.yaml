@@ -6,7 +6,6 @@ channels:
 - iit_hhcm
 
 dependencies:
-- python=3.9
 - conda-build=3.27.0 
 - conda-verify
 - anaconda-client

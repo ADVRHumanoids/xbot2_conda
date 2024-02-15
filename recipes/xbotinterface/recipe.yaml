@@ -1,7 +1,7 @@
 # this sets up "context variables" (in this case name and version) that
 # can later be used in Jinja expressions
 context:
-  version: 2.4.0
+  version: 2.4.1
   name: xbotinterface
 
 # top level package information (name and version)
@@ -12,6 +12,8 @@ package:
 # location to get the source from
 source: 
   path: ../../../XBotInterface
+  patches:
+    - 1-tinyxml-api-change.patch
 
 # build number (should be incremented if a new build is made, but version is not incrementing)
 build:
@@ -33,7 +35,7 @@ requirements:
     - ros-noetic-rosconsole-bridge
     - orocos-kdl
     - tinyxml
-    - yaml-cpp 0.7
+    - yaml-cpp
 
   run:
     - python
