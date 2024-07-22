@@ -15,3 +15,12 @@ dependencies:
 - xbot2-gui
 - iit-centauro-ros-pkg
 - protobuf=4.24.4
+- compilers 
+- cmake 
+- pkg-config 
+- make 
+- ninja 
+- colcon-common-extensions 
+- catkin_tools 
+- rosdep
+
